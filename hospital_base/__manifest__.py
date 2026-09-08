@@ -10,12 +10,16 @@
         'security/hospital_groups.xml',
         'security/ir.model.access.csv',
         'security/hospital_rules.xml'
+        
         "views/patient_views.xml",
         "views/doctor_views.xml",
         "views/patient_menus.xml",
         'views/patient_report_templates.xml',
         'views/patient_report.xml',
+        'views/appointment_views.xml',
         'data/patient_cron.xml',
+        'data/patient_email_template.xml',
+        'data/appointment_data.xml',
     ],
     "installable": True,
     "application": True,

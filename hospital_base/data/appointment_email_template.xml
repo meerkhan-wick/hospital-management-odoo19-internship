@@ -1,0 +1,63 @@
+<odoo>
+
+    <record id="mail_template_appointment_confirmation" model="mail.template">
+        <field name="name">Appointment Confirmation</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="subject">Appointment Confirmation - {{ object.patient_id.name }}</field>
+        <field name="email_from">{{ user.email }}</field>
+        <field name="email_to">{{ object.patient_id.email }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>
+                    Dear <t t-out="object.patient_id.name"/>,
+                </p>
+
+                <p>
+                    Your hospital appointment has been confirmed.
+                </p>
+
+                <h3>Appointment Details</h3>
+
+                <p>
+                    <strong>Appointment Reference:</strong>
+                    <t t-out="object.name"/>
+                </p>
+
+                <p>
+                    <strong>Patient:</strong>
+                    <t t-out="object.patient_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="object.doctor_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Date &amp; Time:</strong>
+                    <t t-out="object.appointment_date"/>
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    <t t-out="object.state"/>
+                </p>
+
+                <p t-if="object.notes">
+                    <strong>Notes:</strong>
+                    <t t-out="object.notes"/>
+                </p>
+
+                <p>
+                    Thank you for choosing our hospital.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    <t t-out="user.company_id.name"/>
+                </p>
+            </div>
+        </field>
+    </record>
+
+</odoo>

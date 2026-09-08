@@ -396,3 +396,33 @@ class HospitalPatient(models.Model):
             len(patients),
             remaining=remaining,
         )
+
+    def action_send_registration_email(self):
+        self.ensure_one()
+
+        if not self.email:
+            raise UserError("Please set an email address before sending the registration email.")
+
+        template = self.env.ref(
+            "hospital_base.mail_template_patient_registration"
+        )
+
+        template.send_mail(self.id, force_send=True)
+
+        return True
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+
+        template = self.env.ref(
+            'hospital_base.mail_template_patient_registration',
+            raise_if_not_found=False,
+        )
+
+        if template:
+            for record in records:
+                if record.email:
+                    template.send_mail(record.id, force_send=True)
+
+        return records
