@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError, UserError
 
 class HospitalPatient(models.Model):
     _name = 'hospital.patient'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Hospital Patient'
 
     name = fields.Char(
@@ -83,7 +84,8 @@ class HospitalPatient(models.Model):
         ],
         string='Status',
         default='draft',
-        required=True
+        required=True,
+        tracking=True
     )
 
     doctor_count = fields.Integer(
@@ -296,7 +298,8 @@ class HospitalPatient(models.Model):
     doctor_id = fields.Many2one(
         'hospital.doctor',
         string='Primary Doctor',
-        ondelete='set null'
+        ondelete='set null',
+        tracking=True,
     )
 
     doctor_ids = fields.Many2many(
@@ -420,9 +423,21 @@ class HospitalPatient(models.Model):
             raise_if_not_found=False,
         )
 
-        if template:
-            for record in records:
-                if record.email:
-                    template.send_mail(record.id, force_send=True)
+        activity_type = self.env.ref(
+            'mail.mail_activity_data_todo',
+            raise_if_not_found=False,
+        )
+
+        for record in records:
+            if template and record.email:
+                template.send_mail(record.id, force_send=True)
+
+            if activity_type:
+                record.activity_schedule(
+                    activity_type.id,
+                    user_id=self.env.user.id,
+                    summary='Review Patient Registration',
+                    note='Review the newly registered patient and confirm the required follow-up.',
+                )
 
         return records

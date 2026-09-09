@@ -5,11 +5,11 @@
     "category": "Healthcare",
     "author": "NerithonX Technologies",
     "license": "LGPL-3",
-    "depends": ["base"],
+    "depends": ["base","mail"],
     "data": [
         'security/hospital_groups.xml',
         'security/ir.model.access.csv',
-        'security/hospital_rules.xml'
+        'security/hospital_rules.xml',
         
         "views/patient_views.xml",
         "views/doctor_views.xml",
