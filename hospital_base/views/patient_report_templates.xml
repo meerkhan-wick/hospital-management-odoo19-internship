@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="patient_report_template">
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+
+                        <div class="text-center mb-4">
+                            <h2>Patient Information Report</h2>
+                            <p class="text-muted">
+                                <span t-field="doc.ref"/>
+                            </p>
+                        </div>
+
+                        <table class="table table-sm table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 30%;">Patient Name</th>
+                                    <td><span t-field="doc.name"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Reference</th>
+                                    <td><span t-field="doc.ref"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Date of Birth</th>
+                                    <td><span t-field="doc.dob"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Age</th>
+                                    <td><span t-field="doc.age"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Gender</th>
+                                    <td><span t-field="doc.gender"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Phone</th>
+                                    <td><span t-field="doc.phone"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Email</th>
+                                    <td><span t-field="doc.email"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Address</th>
+                                    <td><span t-field="doc.address"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Registration Date</th>
+                                    <td><span t-field="doc.registration_date"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Doctor</th>
+                                    <td><span t-field="doc.doctor_id"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Specialization</th>
+                                    <td><span t-field="doc.doctor_specialization"/></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Status</th>
+                                    <td><span t-field="doc.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <t t-if="doc.notes">
+                            <div class="mt-4">
+                                <h4>Patient Notes</h4>
+                                <div class="border p-3">
+                                    <span t-field="doc.notes"/>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t t-else="">
+                            <div class="mt-4 text-muted">
+                                No additional patient notes available.
+                            </div>
+                        </t>
+
+                    </div>
+
+                </t>
+            </t>
+
+        </t>
+    </template>
+
+</odoo>
