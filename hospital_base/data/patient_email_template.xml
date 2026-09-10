@@ -1,0 +1,53 @@
+<odoo>
+
+    <record id="mail_template_patient_registration" model="mail.template">
+        <field name="name">Patient Registration</field>
+        <field name="model_id" ref="model_hospital_patient"/>
+        <field name="subject">Patient Registration - {{ object.name }}</field>
+        <field name="email_from">{{ user.email }}</field>
+        <field name="email_to">{{ object.email }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Dear<t t-out="object.name"/>,
+                </p>
+
+                <p>
+                    Your registration with our hospital has been successfully completed.
+                </p>
+
+                <h3>Patient Information</h3>
+
+                <p>
+                    <strong>Patient Name:</strong>
+                    <t t-out="object.name"/>
+                </p>
+
+                <p>
+                    <strong>Patient Reference:</strong>
+                    <t t-out="object.ref"/>
+                </p>
+
+                <p>
+                    <strong>Registration Date:</strong>
+                    <t t-out="object.registration_date"/>
+                </p>
+
+                <p t-if="object.doctor_id">
+                    <strong>Primary Doctor:</strong>
+                    <t t-out="object.doctor_id.name"/>
+                </p>
+
+                <p>
+                    Thank you for choosing our hospital.
+                </p>
+
+                <p>
+                    Regards,
+                    <br/>
+                    <t t-out="user.company_id.name"/>
+                </p>
+            </div>
+        </field>
+    </record>
+
+</odoo>
