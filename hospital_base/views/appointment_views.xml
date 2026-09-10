@@ -73,8 +73,8 @@
 
     <menuitem id="menu_hospital_appointment"
               name="Appointments"
-              parent="hospital_base.menu_hospital_root"
+              parent="menu_hospital_root"
               action="action_hospital_appointment"
-              sequence="20"/>
+              sequence="40"/>
 
 </odoo>
