@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="patient_website_page" name="Hospital Patients">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_hospital_patients_page">
+                <div class="container my-4">
+                    <h1>Our Patients</h1>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Doctor</th>
+                                <th>Status</th>
+                                <th>Registered On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="patients" t-as="patient">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/hospital/patient/#{patient.id}">
+                                            <t t-out="patient.name"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <t t-if="patient.doctor_id" t-out="patient.doctor_id.name"/>
+                                        <t t-else="">-</t>
+                                    </td>
+                                    <td>
+                                        <t t-out="patient.state"/>
+                                    </td>
+                                    <td>
+                                        <t t-out="patient.registration_date"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr t-if="not patients">
+                                <td colspan="4" class="text-muted">No patients to show.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="patient_website_detail_page" name="Hospital Patient Detail">
+        <t t-call="website.layout">
+            <div id="wrap" class="o_hospital_patient_detail_page">
+                <div class="container my-4">
+                    <a href="/hospital/patients" class="btn btn-link px-0">&#8592; Back to patients</a>
+                    <h1 t-out="patient.name"/>
+                    <table class="table table-borderless w-auto">
+                        <tr>
+                            <th>Reference</th>
+                            <td t-out="patient.ref or '-'"/>
+                        </tr>
+                        <tr>
+                            <th>Doctor</th>
+                            <td>
+                                <t t-if="patient.doctor_id" t-out="patient.doctor_id.name"/>
+                                <t t-else="">-</t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td t-out="patient.state"/>
+                        </tr>
+                        <tr>
+                            <th>Registered On</th>
+                            <td t-out="patient.registration_date"/>
+                        </tr>
+                        <tr>
+                            <th>Age Group</th>
+                            <td t-out="patient.age_group or '-'"/>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

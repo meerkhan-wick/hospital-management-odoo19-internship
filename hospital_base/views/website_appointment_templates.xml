@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="website_appointment_form" name="Hospital Appointment Form">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container my-5">
+                    <h1>Book Appointment</h1>
+
+                    <t t-if="error">
+                        <div class="alert alert-danger" t-out="error"/>
+                    </t>
+
+                    <form action="/hospital/appointment/submit" method="post">
+                        <input type="hidden"
+                               name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+
+                        <div class="mb-3">
+                            <label>Patient</label>
+                            <select name="patient_id" class="form-control" required="required">
+                                <option value="">Select Patient</option>
+                                <t t-foreach="patients" t-as="patient">
+                                    <option t-att-value="patient.id">
+                                        <t t-out="patient.name"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Doctor</label>
+                            <select name="doctor_id" class="form-control" required="required">
+                                <option value="">Select Doctor</option>
+                                <t t-foreach="doctors" t-as="doctor">
+                                    <option t-att-value="doctor.id">
+                                        <t t-out="doctor.name"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Appointment Date &amp; Time</label>
+                            <input type="datetime-local"
+                                   name="appointment_date"
+                                   class="form-control"
+                                   required="required"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea name="notes"
+                                      class="form-control"
+                                      rows="4"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Submit Appointment
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="appointment_confirmation" name="Appointment Confirmation">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container my-5">
+                    <div class="alert alert-success">
+                        Appointment Request Submitted
+                    </div>
+
+                    <p>
+                        <strong>Reference:</strong>
+                        <t t-out="appointment.name"/>
+                    </p>
+
+                    <p>
+                        <strong>Patient:</strong>
+                        <t t-out="appointment.patient_id.name"/>
+                    </p>
+
+                    <p>
+                        <strong>Doctor:</strong>
+                        <t t-out="appointment.doctor_id.name"/>
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        <t t-out="appointment.appointment_date"/>
+                    </p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
