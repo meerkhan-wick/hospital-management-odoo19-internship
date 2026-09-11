@@ -43,3 +43,85 @@ class HospitalWebsite(http.Controller):
             'hospital_base.patient_website_detail_page',
             {'patient': patient},
         )
+
+    @http.route(
+        '/hospital/appointment',
+        type='http',
+        auth='public',
+        website=True,
+    )
+    def appointment_form(self, **kwargs):
+        patients = request.env['hospital.patient'].sudo().search(
+            [('state', '=', 'active')],
+            order='name',
+        )
+        doctors = request.env['hospital.doctor'].sudo().search(
+            [],
+            order='name',
+        )
+
+        return request.render(
+            'hospital_base.website_appointment_form',
+            {
+                'patients': patients,
+                'doctors': doctors,
+            },
+        )
+
+    @http.route(
+        '/hospital/appointment/submit',
+        type='http',
+        auth='public',
+        methods=['POST'],
+        website=True,
+    )
+    def appointment_submit(self, **post):
+        if not post.get('patient_id'):
+            return request.render(
+                'hospital_base.website_appointment_form',
+                {'error': 'Patient is required.'},
+            )
+
+        if not post.get('doctor_id'):
+            return request.render(
+                'hospital_base.website_appointment_form',
+                {'error': 'Doctor is required.'},
+            )
+
+        if not post.get('appointment_date'):
+            return request.render(
+                'hospital_base.website_appointment_form',
+                {'error': 'Appointment date and time are required.'},
+            )
+
+        try:
+            patient_id = int(post['patient_id'])
+            doctor_id = int(post['doctor_id'])
+        except (TypeError, ValueError):
+            return request.render(
+                'hospital_base.website_appointment_form',
+                {'error': 'Invalid patient or doctor.'},
+            )
+
+        patient = request.env['hospital.patient'].sudo().browse(patient_id)
+        doctor = request.env['hospital.doctor'].sudo().browse(doctor_id)
+
+        if not patient.exists() or not doctor.exists():
+            return request.render(
+                'hospital_base.website_appointment_form',
+                {'error': 'Invalid patient or doctor.'},
+            )
+
+        appointment = request.env['hospital.appointment'].sudo().create({
+            'patient_id': patient.id,
+            'doctor_id': doctor.id,
+            'appointment_date': post['appointment_date'].replace('T', ' '),
+            'notes': post.get('notes'),
+        })
+
+        appointment.action_confirm()
+
+        return request.render(
+            'hospital_base.appointment_confirmation',
+            {'appointment': appointment},
+        )

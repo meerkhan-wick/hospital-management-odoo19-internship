@@ -18,11 +18,13 @@
         'views/patient_report.xml',
         'views/appointment_views.xml',
         'views/website_patient_templates.xml',
+        "views/website_appointment_templates.xml",
         'views/website_menu.xml',
 
         'data/patient_cron.xml',
         'data/patient_email_template.xml',
         'data/appointment_email_template.xml',
+        'data/sequence_pt.xml',
     ],
     "installable": True,
     "application": True,

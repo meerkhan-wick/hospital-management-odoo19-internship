@@ -8,4 +8,11 @@
         <field name="sequence" type="int">60</field>
     </record>
 
+    <record id="menu_website_appointment" model="website.menu">
+        <field name="name">Appointments</field>
+        <field name="url">/hospital/appointment</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">70</field>
+    </record>
+
 </odoo>
