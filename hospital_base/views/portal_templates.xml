@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_appointments"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Appointments</t>
+                <t t-set="text">View your appointments</t>
+                <t t-set="url" t-value="'/my/appointments'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_appointments" name="My Appointments">
+        <t t-call="portal.portal_layout">
+            <div class="container py-4">
+                <h3>My Appointments</h3>
+
+                <t t-if="not appointments">
+                    <div class="alert alert-info">
+                        You have no appointments.
+                    </div>
+                </t>
+
+                <t t-if="appointments">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="appointments" t-as="appointment">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/my/appointments/#{appointment.id}">
+                                            <t t-out="appointment.name"/>
+                                        </a>
+                                    </td>
+                                    <td t-out="appointment.doctor_id.name"/>
+                                    <td t-out="appointment.appointment_date"/>
+                                    <td t-out="appointment.state"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_appointment_detail"
+              name="Appointment Detail">
+        <t t-call="portal.portal_layout">
+            <div class="container py-4">
+                <a href="/my/appointments" class="btn btn-link px-0">
+                    &#8592; Back to appointments
+                </a>
+
+                <h3>
+                    <t t-out="appointment.name"/>
+                </h3>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    <t t-out="appointment.doctor_id.name"/>
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    <t t-out="appointment.appointment_date"/>
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    <t t-out="appointment.state"/>
+                </p>
+
+                <p>
+                    <strong>Notes:</strong>
+                    <t t-out="appointment.notes or '-'"/>
+                </p>
+            </div>
+        </t>
+    </template>
+
+</odoo>
