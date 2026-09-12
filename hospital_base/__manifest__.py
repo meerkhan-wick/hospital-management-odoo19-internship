@@ -5,7 +5,7 @@
     "category": "Healthcare",
     "author": "NerithonX Technologies",
     "license": "LGPL-3",
-    "depends": ["base", "mail", "website"],
+    "depends": ["base", "mail", "website","portal",],
     "data": [
         'security/hospital_groups.xml',
         'security/ir.model.access.csv',
@@ -19,6 +19,7 @@
         'views/appointment_views.xml',
         'views/website_patient_templates.xml',
         "views/website_appointment_templates.xml",
+        "views/portal_templates.xml",
         'views/website_menu.xml',
 
         'data/patient_cron.xml',

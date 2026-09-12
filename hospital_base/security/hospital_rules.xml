@@ -12,4 +12,13 @@
         <field name="perm_unlink" eval="1"/>
     </record>
 
+    <record id="hospital_appointment_portal_rule" model="ir.rule">
+        <field name="name">Portal users: own appointments</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="domain_force">
+            [('patient_id.partner_id', '=', user.partner_id.id)]
+        </field>
+    </record>
+
 </odoo>

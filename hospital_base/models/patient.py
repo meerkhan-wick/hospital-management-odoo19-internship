@@ -31,6 +31,13 @@ class HospitalPatient(models.Model):
         string='Age',
         compute='_compute_age',
     )
+
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Portal Contact',
+        index=True,
+        ondelete='set null',
+    )
     age_group = fields.Selection(
         selection=[
             ('minor', 'Minor'),
